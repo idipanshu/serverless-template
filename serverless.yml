@@ -1,8 +1,9 @@
 service:
   name: ${env:NAME}
+
 plugins:
   - serverless-dotenv-plugin
-  - serverless-webpack
+  - serverless-esbuild
   - serverless-offline
 
 provider:
@@ -12,13 +13,16 @@ provider:
   stage: ${env:STAGE}
   region: ${env:REGION}
   versionFunctions: false
+  logRetentionInDays: 30
 package:
   individually: true
 custom:
   urlPrefix: 'sls'
-  webpack:
-    includeModules: true
-    excludeFiles: ./**/*.test.js
+  esbuild:
+    bundle: true
+    minify: true
+    packager: yarn
+    plugins: esbuild-plugins.js
 functions: ${file(./resources/lambda/functions.yml)}
 resources:
   - ${file(./resources/config/iam.yml)}
