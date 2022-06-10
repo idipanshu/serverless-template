@@ -4,6 +4,14 @@ starterFunction:
   events:
     - http:
         method: GET
-        path: /get-repos
+        path: /launches
         cors: true
-  
+
+whoamiFunction:
+  handler: functions/starter-function/index.whoami
+  role: ServerlessTemplateRole
+  events:
+    - http:
+        method: GET
+        path: /whoami
+        cors: true
